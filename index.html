@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Linking external JavaScript file for real-time validation -->
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <!-- Main heading of the page -->
+    <h1>Registration Form</h1>
+
+    <!-- Description under the heading instructing the user -->
+    <p>Please fill out this form with the required information.</p>
+
+    <!-- Beginning of the form, using POST method to send data -->
+    <form
+      method="post"
+      action="https://register-demo.freecodecamp.org"
+      enctype="multipart/form-data"
+    >
+      <!-- Fieldset for basic information input -->
+      <fieldset>
+        <!-- User's first name input -->
+        <label for="first-name"
+          >Enter Your First Name:
+          <input id="first-name" name="first-name" type="text" required />
+        </label>
+
+        <!-- User's last name input -->
+        <label for="last-name"
+          >Enter Your Last Name:
+          <input id="last-name" name="last-name" type="text" required />
+        </label>
+
+        <!-- User's email input with built-in email format validation -->
+        <label for="email"
+          >Enter Your Email:
+          <input id="email" name="email" type="email" required />
+        </label>
+
+        <!-- Password input with pattern validation for strength -->
+        <label for="new-password"
+          >Create a New Password:
+          <input
+            id="new-password"
+            name="new-password"
+            type="password"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}"
+            title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+            required
+          />
+          <!-- Small message explaining password requirements -->
+          <small
+            >Password must be 8 characters long, with uppercase, lowercase,
+            numbers, and special characters.</small
+          >
+        </label>
+      </fieldset>
+
+      <!-- Fieldset for selecting account type (Personal or Business) -->
+      <fieldset>
+        <legend>Account type (required)</legend>
+
+        <!-- Radio button for selecting personal account -->
+        <label for="personal-account">
+          <input
+            id="personal-account"
+            type="radio"
+            name="account-type"
+            class="inline"
+            checked
+          />
+          Personal
+        </label>
+
+        <!-- Radio button for selecting business account -->
+        <label for="business-account">
+          <input
+            id="business-account"
+            type="radio"
+            name="account-type"
+            class="inline"
+          />
+          Business
+        </label>
+      </fieldset>
+
+      <!-- Additional information about the user -->
+      <fieldset>
+        <!-- File input for uploading a profile picture -->
+        <label for="profile-picture"
+          >Upload a profile picture:
+          <input
+            id="profile-picture"
+            type="file"
+            name="file"
+            accept="image/*"
+          />
+        </label>
+
+        <!-- Input for user’s age with minimum and maximum values -->
+        <label for="age"
+          >Input your age (years):
+          <input
+            id="age"
+            type="number"
+            name="age"
+            min="13"
+            max="120"
+            required
+          />
+        </label>
+
+        <!-- Dropdown menu for selecting how the user heard about the site -->
+        <label for="referrer"
+          >How did you hear about us?
+          <select id="referrer" name="referrer" required>
+            <option value="">(select one)</option>
+            <option value="1">freeCodeCamp News</option>
+            <option value="2">freeCodeCamp YouTube Channel</option>
+            <option value="3">freeCodeCamp Forum</option>
+            <option value="4">Other</option>
+          </select>
+        </label>
+
+        <!-- Text area for providing a brief bio -->
+        <label for="bio"
+          >Provide a bio:
+          <textarea
+            id="bio"
+            name="bio"
+            rows="3"
+            cols="30"
+            placeholder="I like coding on the beach..."
+          ></textarea>
+        </label>
+      </fieldset>
+
+      <!-- Terms and conditions checkbox, required for form submission -->
+      <label for="terms-and-conditions">
+        <input
+          class="inline"
+          id="terms-and-conditions"
+          type="checkbox"
+          required
+          name="terms-and-conditions"
+        />
+        I accept the
+        <!-- Link to terms and conditions, opening in a new tab -->
+        <a
+          href="https://www.freecodecamp.org/news/terms-of-service/"
+          target="_blank"
+        >
+          terms and conditions
+        </a>
+      </label>
+
+      <!-- Submit button to send the form -->
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
+
+<!-- script.js for real-time form validation -->
+<script>
+  // Password strength check when the user types
+  document
+    .getElementById("new-password")
+    .addEventListener("input", function () {
+      const password = this.value;
+      const strengthMessage = document.querySelector("small");
+      const pattern = new RegExp(
+        "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,}"
+      );
+
+      // Check if the password matches the pattern
+      if (!pattern.test(password)) {
+        strengthMessage.style.color = "red";
+        strengthMessage.textContent = "Password does not meet the criteria.";
+      } else {
+        strengthMessage.style.color = "green";
+        strengthMessage.textContent = "Password looks good!";
+      }
+    });
+
+  // Validation for file upload size (maximum 2MB)
+  document
+    .getElementById("profile-picture")
+    .addEventListener("change", function () {
+      const fileSize = this.files[0]?.size / 1024 / 1024; // Size in MB
+      if (fileSize > 2) {
+        // Limit file size to 2MB
+        alert("File size must be less than 2MB");
+        this.value = ""; // Clear the file input if size is too large
+      }
+    });
+</script>
